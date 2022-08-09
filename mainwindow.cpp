@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     loggedIn = false;
+    disableWindows();
 }
 
 MainWindow::~MainWindow()
@@ -28,6 +29,11 @@ void MainWindow::on_LoginButton_clicked()
     } else {
         auto m = Database::login(ui->UsernameFrom->text().toStdString(), ui->PasswordForm->text().toStdString());
         ui->LastAction->setText(QString::fromStdString(m.getMessage()));
+        if (m.getStatus() == 1) {
+            enableWindows();
+            ui->UsernameFrom->clear();
+            ui->PasswordForm->clear();
+        }
     }
 }
 
@@ -36,10 +42,46 @@ bool MainWindow::loginDataPresent() {
             && !(ui->PasswordForm->text().begin() == ui->PasswordForm->text().end());
 }
 
-void MainWindow::disableWindows() {
+void MainWindow::changeWindowsState(bool state) {
+    ui->TabWidget->setEnabled(state);
 
+    // Books tab
+    ui->TitleLineEdit->setEnabled(state);
+    ui->SynopsisTextEdit->setEnabled(state);
+    ui->ISBNLineEdit->setEnabled(state);
+    ui->YearSpinBox->setEnabled(state);
+    ui->RatingSpinBox->setEnabled(state);
+    ui->AuthorComboBox->setEnabled(state);
+    ui->PublisherLabel->setEnabled(state);
+
+    // Authors tab
+
+    // Publishers tab
+}
+
+void MainWindow::disableWindows() {
+    changeWindowsState(false);
 }
 
 void MainWindow::enableWindows() {
+    changeWindowsState(true);
+}
+
+void MainWindow::on_RegisterButton_clicked()
+{
+    if (!loginDataPresent()) {
+        ui->LastAction->setText("Missing login information!");
+    } else {
+        auto m = Database::_register(ui->UsernameFrom->text().toStdString(), ui->PasswordForm->text().toStdString());
+        ui->LastAction->setText(QString::fromStdString(m.getMessage()));
+        ui->UsernameFrom->clear();
+        ui->PasswordForm->clear();
+    }
+}
+
+
+void MainWindow::on_AddBookButton_clicked()
+{
 
 }
+

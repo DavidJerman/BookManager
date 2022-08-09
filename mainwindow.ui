@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1155</width>
-    <height>584</height>
+    <width>1158</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,47 +16,143 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2" rowstretch="10,1">
     <item row="0" column="0">
-     <layout class="QHBoxLayout" name="MainGrid" stretch="6,3">
+     <layout class="QHBoxLayout" name="MainGrid" stretch="0">
       <item>
-       <layout class="QGridLayout" name="DisplayGrid" rowstretch="0,0">
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="DisplaySelection">
+       <widget class="QTabWidget" name="TabWidget">
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="BooksTab">
+         <attribute name="title">
+          <string>Books</string>
+         </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="6,3">
           <item>
-           <widget class="QPushButton" name="BooksDisplay">
-            <property name="text">
-             <string>Books</string>
-            </property>
-           </widget>
+           <widget class="QTableWidget" name="BooksDisplayGrid"/>
           </item>
           <item>
-           <widget class="QPushButton" name="AuthorsDisplay">
-            <property name="text">
-             <string>Authors</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="PublishersDisplay">
-            <property name="text">
-             <string>Publishers</string>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10">
+            <item>
+             <widget class="QLabel" name="AddBookLabel">
+              <property name="text">
+               <string>Add a book</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="5" column="0">
+               <widget class="QLabel" name="AuthorLabel">
+                <property name="text">
+                 <string>Author</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="TitleLabel">
+                <property name="text">
+                 <string>Title</string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QLabel" name="PublisherLabel">
+                <property name="text">
+                 <string>Publisher</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="ISBNLabel">
+                <property name="text">
+                 <string>ISBN</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QComboBox" name="AuthorComboBox"/>
+              </item>
+              <item row="1" column="1">
+               <widget class="QPlainTextEdit" name="SynopsisTextEdit"/>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="YearLabel">
+                <property name="text">
+                 <string>Year of release</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="SynopsisLabel">
+                <property name="text">
+                 <string>Synopsis</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="TitleLineEdit">
+                <property name="maxLength">
+                 <number>128</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QLabel" name="RatingLabel">
+                <property name="text">
+                 <string>Rating 1-5</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QSpinBox" name="YearSpinBox">
+                <property name="maximum">
+                 <number>2050</number>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QSpinBox" name="RatingSpinBox">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="ISBNLineEdit">
+                <property name="maxLength">
+                 <number>32</number>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="1">
+               <widget class="QComboBox" name="PublisherComboBox"/>
+              </item>
+              <item row="7" column="0">
+               <widget class="QPushButton" name="AddBookButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
          </layout>
-        </item>
-        <item row="1" column="0">
-         <widget class="QTableWidget" name="tableWidget"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QFrame" name="insertionFrame">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
+        </widget>
+        <widget class="QWidget" name="AuthorsTab">
+         <attribute name="title">
+          <string>Authors</string>
+         </attribute>
+        </widget>
+        <widget class="QWidget" name="PublishersTab">
+         <attribute name="title">
+          <string>Publishers</string>
+         </attribute>
+        </widget>
        </widget>
       </item>
      </layout>
@@ -146,7 +242,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1155</width>
+     <width>1158</width>
      <height>21</height>
     </rect>
    </property>

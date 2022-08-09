@@ -14,6 +14,8 @@ class MainWindow : public QMainWindow
 private:
     bool loginDataPresent();
 
+    void changeWindowsState(bool state);
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -25,6 +27,10 @@ public:
 
 private slots:
     void on_LoginButton_clicked();
+
+    void on_RegisterButton_clicked();
+
+    void on_AddBookButton_clicked();
 
 private:
     Ui::MainWindow *ui;

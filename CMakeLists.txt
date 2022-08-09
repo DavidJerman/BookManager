@@ -26,6 +26,8 @@ set(PROJECT_SOURCES
         database.cpp
         message.h
         message.cpp
+        book.h
+        book.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -7,6 +7,7 @@
 #include <string>
 
 #include "message.h"
+#include "book.h"
 
 class Database
 {
@@ -24,6 +25,14 @@ public:
     static bool checkConnection();
 
     static Message login(const std::string username, const std::string passowrd);
+
+    static Message _register(const std::string username, const std::string password);
+
+    static bool validPassword(const std::string &password);
+
+    static bool validUsername(const std::string &username);
+
+    static bool validBook(const Book &book);
 };
 
 #endif // DATABASE_H
