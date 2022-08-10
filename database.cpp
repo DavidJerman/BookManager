@@ -59,6 +59,7 @@ Message Database::_register(const std::string username, const std::string passwo
         query.exec(QString::fromStdString("INSERT INTO credential VALUES ("
                                           "null, '" + username + "', SHA2('" + password
                                           + "', 256), NOW())"));
+        db.commit();
         return {1, "User created, please login!"};
     }
     else return {0, "User already exists!!"};
@@ -88,24 +89,83 @@ Message Database::addBook(const Book &book) {
     query.exec(QString::fromStdString("SELECT isbn FROM book WHERE isbn = '" + book.getISBN() + "';"));
     if (query.next()) return {0, "This ISBN already exists!"};
 
-    query.exec(QString::fromStdString("SELECT FK_author FROM book WHERE FK_author = " + std::to_string(book.getAuthor())));
+    query.exec(QString::fromStdString("SELECT ID FROM author WHERE ID = " + std::to_string(book.getAuthor())));
     if (!query.next()) return {0, "Selected author does not exist, please add it!"};
 
-    query.exec(QString::fromStdString("SELECT FK_publisher FROM book WHERE FK_publisher = " + std::to_string(book.getPublisher())));
+    query.exec(QString::fromStdString("SELECT ID FROM publisher WHERE ID = " + std::to_string(book.getPublisher())));
     if (!query.next()) return {0, "Selected publisher does not exist, please add it!"};
 
     if (book.getYearOfRelease() < 0 || book.getYearOfRelease() > 2050) return {0, "Invalid year of release!"};
 
     if (book.getRating() < 1 || book.getRating() > 5) return {0, "Invalid rating!"};
 
-    query.exec(QString::fromStdString("INSERT INTO book VALUES (null, "
-                                      + book.getTitle() + ","
-                                      + book.getSynopsis() + ","
-                                      + book.getISBN() + ","
+    query.exec(QString::fromStdString("INSERT INTO book VALUES (null, '"
+                                      + book.getTitle() + "','"
+                                      + book.getSynopsis() + "','"
+                                      + book.getISBN() + "',"
                                       + std::to_string(book.getYearOfRelease()) + ","
                                       + std::to_string(book.getRating()) + ","
                                       + std::to_string(book.getAuthor()) + ","
                                       + std::to_string(book.getPublisher()) + ")"));
+    db.commit();
 
-    return {1, "Book added successfuly!"};
+    return {1, "Book added successfully!"};
+}
+
+Message Database::addAuthor(const Author &author) {
+
+    QSqlQuery query (db);
+
+    // TODO: Warn user about duplicates
+    query.exec(QString::fromStdString("INSERT INTO author VALUES (null, '"
+                                      + author.getName() + "','"
+                                      + author.getBirthDate() + "','"
+                                      + author.getBiography() + "')"));
+    db.commit();
+
+    return {1, "Author added succesfully!"};
+}
+
+Message Database::addPublisher(const Publisher &publisher) {
+
+    QSqlQuery query (db);
+
+    // We are just looking for duplicating tax IDs
+    query.exec(QString::fromStdString("SELECT tax_id FROM book WHERE tax_id = '" + publisher.getTaxID() + "';"));
+    if (query.next()) return {0, "This publisher's Tax ID already exists!"};
+
+    // TODO: Warn user about duplicates
+    query.exec(QString::fromStdString("INSERT INTO publisher VALUES (null, '"
+                                      + publisher.getName() + "','"
+                                      + publisher.getTaxID() + "')"));
+    db.commit();
+
+    return {1, "Publisher added successfully!"};
+}
+
+std::vector<Author> Database::getAuthors() {
+    std::vector<Author> authorNames;
+
+    QSqlQuery query (db);
+    query.exec("SELECT ID, full_name, birth_date, biography  FROM author ORDER BY full_name ASC");
+
+    while (query.next()) authorNames.push_back({query.value(1).toString().toStdString(),
+                                                query.value(2).toString().toStdString(),
+                                                query.value(3).toString().toStdString(),
+                                                std::atoi(query.value(0).toString().toStdString().c_str())});
+
+    return authorNames;
+}
+
+std::vector<Publisher> Database::getPublisherNames() {
+    std::vector<Publisher> publisherNames;
+
+    QSqlQuery query (db);
+    query.exec("SELECT ID, full_name, tax_id FROM publisher ORDER BY full_name ASC");
+
+    while (query.next()) publisherNames.push_back({query.value(1).toString().toStdString(),
+                                                   query.value(2).toString().toStdString(),
+                                                   std::atoi(query.value(0).toString().toStdString().c_str())});
+
+    return publisherNames;
 }

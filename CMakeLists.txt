@@ -28,6 +28,10 @@ set(PROJECT_SOURCES
         message.cpp
         book.h
         book.cpp
+        author.h
+        author.cpp
+        publisher.h
+        publisher.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -5,9 +5,13 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <string>
+#include <iostream>
+#include <vector>
 
 #include "message.h"
 #include "book.h"
+#include "author.h"
+#include "publisher.h"
 
 class Database
 {
@@ -33,6 +37,14 @@ public:
     static bool validUsername(const std::string &username);
 
     static Message addBook(const Book &book);
+
+    static Message addAuthor(const Author &author);
+
+    static Message addPublisher(const Publisher &publisher);
+
+    static std::vector<Author> getAuthors();
+
+    static std::vector<Publisher> getPublisherNames();
 };
 
 #endif // DATABASE_H
