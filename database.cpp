@@ -80,11 +80,32 @@ bool Database::validUsername(const std::string &username) {
     return username.length() > 4;
 }
 
-bool Database::validBook(const Book &book) {
+Message Database::addBook(const Book &book) {
 
     QSqlQuery query (db);
 
-    // We are just looking for a unique ISBN, title, author and publisher
-    // TODO
-    query.exec(QString::fromStdString("SELECT title, isbn FROM book WHERE title"));
+    // We are just looking for a unique ISBN, and existent author and publisher
+    query.exec(QString::fromStdString("SELECT isbn FROM book WHERE isbn = '" + book.getISBN() + "';"));
+    if (query.next()) return {0, "This ISBN already exists!"};
+
+    query.exec(QString::fromStdString("SELECT FK_author FROM book WHERE FK_author = " + std::to_string(book.getAuthor())));
+    if (!query.next()) return {0, "Selected author does not exist, please add it!"};
+
+    query.exec(QString::fromStdString("SELECT FK_publisher FROM book WHERE FK_publisher = " + std::to_string(book.getPublisher())));
+    if (!query.next()) return {0, "Selected publisher does not exist, please add it!"};
+
+    if (book.getYearOfRelease() < 0 || book.getYearOfRelease() > 2050) return {0, "Invalid year of release!"};
+
+    if (book.getRating() < 1 || book.getRating() > 5) return {0, "Invalid rating!"};
+
+    query.exec(QString::fromStdString("INSERT INTO book VALUES (null, "
+                                      + book.getTitle() + ","
+                                      + book.getSynopsis() + ","
+                                      + book.getISBN() + ","
+                                      + std::to_string(book.getYearOfRelease()) + ","
+                                      + std::to_string(book.getRating()) + ","
+                                      + std::to_string(book.getAuthor()) + ","
+                                      + std::to_string(book.getPublisher()) + ")"));
+
+    return {1, "Book added successfuly!"};
 }

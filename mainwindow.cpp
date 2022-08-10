@@ -53,10 +53,18 @@ void MainWindow::changeWindowsState(bool state) {
     ui->RatingSpinBox->setEnabled(state);
     ui->AuthorComboBox->setEnabled(state);
     ui->PublisherLabel->setEnabled(state);
+    ui->AddBookButton->setEnabled(state);
 
     // Authors tab
+    ui->AuthorNameLineEdit->setEnabled(state);
+    ui->AuthorDateEdit->setEnabled(state);
+    ui->BiographyTextEdit->setEnabled(state);
+    ui->AddAuthorButton->setEnabled(state);
 
     // Publishers tab
+    ui->PublisherNameLineEdit->setEnabled(state);
+    ui->TaxIDLineEdit->setEnabled(state);
+    ui->AddPublisherButton->setEnabled(state);
 }
 
 void MainWindow::disableWindows() {
@@ -79,9 +87,34 @@ void MainWindow::on_RegisterButton_clicked()
     }
 }
 
+bool MainWindow::bookDataPresent() {
+    return !(ui->TitleLineEdit->text().begin() == ui->TitleLineEdit->text().end()
+             || ui->SynopsisTextEdit->toPlainText().begin() == ui->SynopsisTextEdit->toPlainText().end()
+             || ui->ISBNLineEdit->text().begin() == ui->ISBNLineEdit->text().end()
+             || ui->AuthorComboBox->currentIndex() == -1
+             || ui->PublisherComboBox->currentIndex() == -1);
+}
 
 void MainWindow::on_AddBookButton_clicked()
 {
-
+    if (!bookDataPresent()) {
+        ui->LastAction->setText("Missing book information!");
+    } else {
+        Book b (ui->TitleLineEdit->text().toStdString(),
+                ui->SynopsisTextEdit->toPlainText().toStdString(),
+                ui->ISBNLineEdit->text().toStdString(),
+                ui->YearSpinBox->value(),
+                ui->RatingSpinBox->value(),
+                std::atoi(ui->AuthorComboBox->currentText().toStdString().c_str()),
+                std::atoi(ui->PublisherComboBox->currentText().toStdString().c_str()));
+        auto m = Database::addBook(b);
+        ui->LastAction->setText(QString::fromStdString(m.getMessage()));
+        if (m.getStatus() == 1) {
+            ui->TitleLineEdit->clear();
+            ui->SynopsisTextEdit->clear();
+            ui->ISBNLineEdit->clear();
+            ui->YearSpinBox->clear();
+            ui->RatingSpinBox->clear();
+        }
+    }
 }
-

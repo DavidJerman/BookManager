@@ -32,7 +32,7 @@ public:
 
     static bool validUsername(const std::string &username);
 
-    static bool validBook(const Book &book);
+    static Message addBook(const Book &book);
 };
 
 #endif // DATABASE_H

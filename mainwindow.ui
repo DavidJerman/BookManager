@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1158</width>
-    <height>551</height>
+    <width>1013</width>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <item>
        <widget class="QTabWidget" name="TabWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="BooksTab">
          <attribute name="title">
@@ -28,7 +28,7 @@
          </attribute>
          <layout class="QHBoxLayout" name="horizontalLayout" stretch="6,3">
           <item>
-           <widget class="QTableWidget" name="BooksDisplayGrid"/>
+           <widget class="QTableView" name="BooksDisplayGrid"/>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout" stretch="1,10">
@@ -147,11 +147,128 @@
          <attribute name="title">
           <string>Authors</string>
          </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="6,3">
+          <item>
+           <widget class="QTableView" name="AuthorsDisplayGrid"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,10">
+            <item>
+             <widget class="QLabel" name="AuthorLabel_2">
+              <property name="text">
+               <string>Add an author</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="gridLayout_3">
+              <item row="1" column="1">
+               <widget class="QDateEdit" name="AuthorDateEdit"/>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="AuthorNameLabel">
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="BiographyLabel">
+                <property name="text">
+                 <string>Biography</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="AuthorNameLineEdit"/>
+              </item>
+              <item row="2" column="1">
+               <widget class="QPlainTextEdit" name="BiographyTextEdit"/>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="DateOfBirthLabel">
+                <property name="text">
+                 <string>Date of birth</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="AddAuthorButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
         <widget class="QWidget" name="PublishersTab">
          <attribute name="title">
           <string>Publishers</string>
          </attribute>
+         <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="6,3">
+          <item>
+           <widget class="QTableView" name="tableView"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,10">
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Add a publisher</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QGridLayout" name="gridLayout_4">
+              <item row="1" column="0">
+               <widget class="QLabel" name="TaxIDLabel">
+                <property name="text">
+                 <string>Tax ID</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="TaxIDLineEdit"/>
+              </item>
+              <item row="0" column="1">
+               <widget class="QLineEdit" name="PublisherNameLineEdit"/>
+              </item>
+              <item row="2" column="0">
+               <widget class="QPushButton" name="AddPublisherButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QLabel" name="PublisherNameLabel">
+                <property name="text">
+                 <string>Name</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <spacer name="verticalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
        </widget>
       </item>
@@ -242,7 +359,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1158</width>
+     <width>1013</width>
      <height>21</height>
     </rect>
    </property>

@@ -16,6 +16,8 @@ private:
 
     void changeWindowsState(bool state);
 
+    bool bookDataPresent();
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
