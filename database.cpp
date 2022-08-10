@@ -25,6 +25,7 @@ Message Database::login(const std::string username, const std::string password) 
     if (!checkConnection()) return {0, "Connection is not active!"};
 
     QSqlQuery query (db);
+    // Yeah, now that I think about it, this is very unsafe, will change
     query.exec(QString::fromStdString("SELECT password_hash FROM credential WHERE username = '" + username + "'"));
 
     if (query.next()) {
