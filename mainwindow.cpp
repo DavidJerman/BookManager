@@ -2,12 +2,18 @@
 #include "./ui_mainwindow.h"
 
 #include "database.h"
+#include <QSortFilterProxyModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->BooksDisplayGrid->setSortingEnabled(true);
+    ui->AuthorsDisplayGrid->setSortingEnabled(true);
+    ui->PublisherDisplayGrid->setSortingEnabled(true);
+
     disableWindows();
 }
 
@@ -211,6 +217,10 @@ void MainWindow::loadPublishersData()
 void MainWindow::setBookModelToTable()
 {
     QSqlQueryModel *model = new QSqlQueryModel;
+
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
+    proxyModel->setSourceModel(model);
+
     model->setQuery("SELECT title, synopsis, isbn, year_of_release, rating, a.full_name, p.full_name "
                     "FROM book b "
                     "INNER JOIN author a on b.FK_author = a.ID "
@@ -224,30 +234,38 @@ void MainWindow::setBookModelToTable()
     model->setHeaderData(5, Qt::Horizontal, tr("Author"));
     model->setHeaderData(6, Qt::Horizontal, tr("Publisher"));
 
-    ui->BooksDisplayGrid->setModel(model);
+    ui->BooksDisplayGrid->setModel(proxyModel);
 }
 
 void MainWindow::setAuthorModelToTable()
 {
     QSqlQueryModel *model = new QSqlQueryModel;
+
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
+    proxyModel->setSourceModel(model);
+
     model->setQuery("SELECT full_name, birth_date, biography FROM author;");
 
     model->setHeaderData(0, Qt::Horizontal, tr("Name"));
     model->setHeaderData(1, Qt::Horizontal, tr("Birth Date"));
     model->setHeaderData(2, Qt::Horizontal, tr("Biography"));
 
-    ui->AuthorsDisplayGrid->setModel(model);
+    ui->AuthorsDisplayGrid->setModel(proxyModel);
 }
 
 void MainWindow::setPublisherModelToTable()
 {
     QSqlQueryModel *model = new QSqlQueryModel;
+
+    QSortFilterProxyModel *proxyModel = new QSortFilterProxyModel();
+    proxyModel->setSourceModel(model);
+
     model->setQuery("SELECT full_name, tax_id FROM publisher;");
 
     model->setHeaderData(0, Qt::Horizontal, tr("Name"));
     model->setHeaderData(1, Qt::Horizontal, tr("Tax ID"));
 
-    ui->PublisherDisplayGrid->setModel(model);
+    ui->PublisherDisplayGrid->setModel(proxyModel);
 }
 
 void MainWindow::on_BooksDisplayGrid_doubleClicked(const QModelIndex &index)

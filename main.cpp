@@ -54,7 +54,6 @@ public:
         ss << "Database connection: " << (Database::checkConnection() ? "success!" : "fail!");
         w->changeStatus(ss.str());
         ss.str(std::string());
-        std::cout << "App constructed!" << std::endl;
     }
 
     ~App() {}
@@ -66,7 +65,6 @@ public:
 
 
 int main(int argc, char *argv[]) {
-    std::cout << "App started..." << std::endl;
     App app (argc, argv);
     return app.exec();
 }
