@@ -34,6 +34,10 @@ void MainWindow::on_LoginButton_clicked()
             ui->PasswordForm->clear();
             loadAuthorsData();
             loadPublishersData();
+            // TODO: Remove maybe
+            setAuthorModelToTable();
+            setPublisherModelToTable();
+            setBookModelToTable();
         }
     }
 }
@@ -143,7 +147,6 @@ void MainWindow::on_AddAuthorButton_clicked()
         month = date.substr(0, date.find('/'));
         day = date.substr(date.find('/') + 1, date.find_last_of('/') - date.find('/') - 1);
         year = date.substr(date.find_last_of('/') + 1);
-        std::cout << year << "-" << month << "-" << day << std::endl;
 
         Author a (ui->AuthorNameLineEdit->text().toStdString(),
                   year + "-" + month + "-" + day,
@@ -154,6 +157,7 @@ void MainWindow::on_AddAuthorButton_clicked()
             ui->AuthorNameLineEdit->clear();
             ui->BiographyTextEdit->clear();
             loadAuthorsData();
+            setAuthorModelToTable();
         }
     }
 }
@@ -176,6 +180,7 @@ void MainWindow::on_AddPublisherButton_clicked()
             ui->PublisherNameLineEdit->clear();
             ui->TaxIDLineEdit->clear();
             loadPublishersData();
+            setPublisherModelToTable();
         }
     }
 }
@@ -192,7 +197,8 @@ void MainWindow::loadAuthorsData() {
                                     << QString::fromStdString(item.getBiography()));
 }
 
-void MainWindow::loadPublishersData() {
+void MainWindow::loadPublishersData()
+{
     auto publishers = Database::getPublisherNames();
     ui->PublisherComboBox->clear();
     for (const auto &item: publishers)
@@ -201,3 +207,62 @@ void MainWindow::loadPublishersData() {
                                        << QString::fromStdString(item.getName())
                                        << QString::fromStdString(item.getTaxID()));
 }
+
+void MainWindow::setBookModelToTable()
+{
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT title, synopsis, isbn, year_of_release, rating, a.full_name, p.full_name "
+                    "FROM book b "
+                    "INNER JOIN author a on b.FK_author = a.ID "
+                    "INNER JOIN publisher p on b.FK_publisher = p.ID;");
+
+    model->setHeaderData(0, Qt::Horizontal, tr("Title"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Synopsis"));
+    model->setHeaderData(2, Qt::Horizontal, tr("ISBN"));
+    model->setHeaderData(3, Qt::Horizontal, tr("Year of release"));
+    model->setHeaderData(4, Qt::Horizontal, tr("Rating"));
+    model->setHeaderData(5, Qt::Horizontal, tr("Author"));
+    model->setHeaderData(6, Qt::Horizontal, tr("Publisher"));
+
+    ui->BooksDisplayGrid->setModel(model);
+}
+
+void MainWindow::setAuthorModelToTable()
+{
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT full_name, birth_date, biography FROM author;");
+
+    model->setHeaderData(0, Qt::Horizontal, tr("Name"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Birth Date"));
+    model->setHeaderData(2, Qt::Horizontal, tr("Biography"));
+
+    ui->AuthorsDisplayGrid->setModel(model);
+}
+
+void MainWindow::setPublisherModelToTable()
+{
+    QSqlQueryModel *model = new QSqlQueryModel;
+    model->setQuery("SELECT full_name, tax_id FROM publisher;");
+
+    model->setHeaderData(0, Qt::Horizontal, tr("Name"));
+    model->setHeaderData(1, Qt::Horizontal, tr("Tax ID"));
+
+    ui->PublisherDisplayGrid->setModel(model);
+}
+
+void MainWindow::on_BooksDisplayGrid_doubleClicked(const QModelIndex &index)
+{
+    return;
+}
+
+void MainWindow::on_AuthorsDisplayGrid_doubleClicked(const QModelIndex &index)
+{
+    return;
+}
+
+
+void MainWindow::on_PublisherDisplayGrid_doubleClicked(const QModelIndex &index)
+{
+    return;
+}
+

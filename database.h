@@ -5,7 +5,6 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <string>
-#include <iostream>
 #include <vector>
 
 #include "message.h"

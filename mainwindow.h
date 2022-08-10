@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include <hash_map>
+#include <QSqlTableModel>
 #include "author.h"
 #include "publisher.h"
 
@@ -30,6 +30,12 @@ private:
 
     void loadPublishersData();
 
+    void setBookModelToTable();
+
+    void setAuthorModelToTable();
+
+    void setPublisherModelToTable();
+
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
@@ -49,6 +55,12 @@ private slots:
     void on_AddAuthorButton_clicked();
 
     void on_AddPublisherButton_clicked();
+
+    void on_BooksDisplayGrid_doubleClicked(const QModelIndex &index);
+
+    void on_AuthorsDisplayGrid_doubleClicked(const QModelIndex &index);
+
+    void on_PublisherDisplayGrid_doubleClicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;
