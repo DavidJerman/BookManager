@@ -56,11 +56,11 @@ private slots:
 
     void on_AddPublisherButton_clicked();
 
-    void on_BooksDisplayGrid_doubleClicked(const QModelIndex &index);
+    void on_BooksDisplayGrid_clicked(const QModelIndex &index);
 
-    void on_AuthorsDisplayGrid_doubleClicked(const QModelIndex &index);
+    void on_AuthorsDisplayGrid_clicked(const QModelIndex &index);
 
-    void on_PublisherDisplayGrid_doubleClicked(const QModelIndex &index);
+    void on_PublisherDisplayGrid_clicked(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

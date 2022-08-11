@@ -4,6 +4,8 @@
 #include "database.h"
 #include <QSortFilterProxyModel>
 
+#include <iostream>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -268,19 +270,19 @@ void MainWindow::setPublisherModelToTable()
     ui->PublisherDisplayGrid->setModel(proxyModel);
 }
 
-void MainWindow::on_BooksDisplayGrid_doubleClicked(const QModelIndex &index)
+void MainWindow::on_BooksDisplayGrid_clicked(const QModelIndex &index)
 {
-    return;
-}
-
-void MainWindow::on_AuthorsDisplayGrid_doubleClicked(const QModelIndex &index)
-{
-    return;
+    ui->MoreInformationTextEdit->setText(ui->BooksDisplayGrid->currentIndex().data().toString());
 }
 
 
-void MainWindow::on_PublisherDisplayGrid_doubleClicked(const QModelIndex &index)
+void MainWindow::on_AuthorsDisplayGrid_clicked(const QModelIndex &index)
 {
-    return;
+    ui->MoreInformationTextEdit->setText(ui->AuthorsDisplayGrid->currentIndex().data().toString());
+}
+
+void MainWindow::on_PublisherDisplayGrid_clicked(const QModelIndex &index)
+{
+    ui->MoreInformationTextEdit->setText(ui->PublisherDisplayGrid->currentIndex().data().toString());
 }
 
