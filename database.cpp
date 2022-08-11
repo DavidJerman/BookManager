@@ -25,17 +25,20 @@ Message Database::login(const std::string username, const std::string password) 
     if (!checkConnection()) return {0, "Connection is not active!"};
 
     QSqlQuery query (db);
-    // Yeah, now that I think about it, this is very unsafe, will change
-    query.exec(QString::fromStdString("SELECT password_hash FROM credential WHERE username = '" + username + "'"));
+
+    // This is not really super safe, since anyone can still obtain the password hashes, given he knows
+    // the credentials used for accessing this database
+    // Will redesign this
+    query.exec(QString::fromStdString("SELECT STRCMP(password_hash, SHA2('"
+                                      + password
+                                      + "', 256)) "
+                                      "FROM credential "
+                                      "WHERE username = '" + username + "'"));
 
     if (query.next()) {
-        auto pass = query.value(0).toString();
+        auto res = query.value(0).toString().toStdString();
 
-        QSqlQuery md5Q(QString::fromStdString("SELECT SHA2('" + password + "', 256);"));
-        md5Q.exec();
-
-        if (!md5Q.next()) return {0, "MD5 query error!"};
-        else if (pass.compare(md5Q.value(0).toString())) return {0, "Password does not match the given username!"};
+        if (res[0] != '0') return {0, "Password does not match the given username!"};
         else {
             query.exec(QString::fromStdString("UPDATE credential SET last_access = NOW() WHERE username ="
                                               "'" + username + "';"));
