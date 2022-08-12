@@ -50,6 +50,7 @@ Message Database::login(const std::string username, const std::string password) 
 
 Message Database::_register(const std::string username, const std::string password) {
 
+    // This is just an idea, registering like this is not safe
     if (!checkConnection()) return {0, "Connection is not active!"};
 
     if (!validUsername(username)) return {0, "Username not valid, must be at least 5 character long!"};
